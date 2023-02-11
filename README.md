@@ -20,4 +20,4 @@ How to use
 
 4.Enter 'peekingduck run' in the commandline.
 
-5.Then a camera turns on and images shows up in the screen!
+5.Then a camera turns on and images shows up on the screen!
