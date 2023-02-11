@@ -1,0 +1,8 @@
+nodes:
+- input.visual:
+    source: 0
+- model.yolo:
+    detect: ['person']
+- draw.bbox:
+- custom_nodes.draw.draw_percentage
+- output.screen
