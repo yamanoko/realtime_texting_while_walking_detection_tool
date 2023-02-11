@@ -4,7 +4,7 @@ Node template for creating custom nodes.
 
 from typing import Any, Dict
 import cv2
-#playsound version is 1.22
+#playsound version is 1.2.2
 from playsound import playsound
 import threading
 import tensorflow as tf
