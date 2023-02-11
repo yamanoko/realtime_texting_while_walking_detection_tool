@@ -60,7 +60,12 @@ class Node(AbstractNode):
         # configs can be called by self.<config_name> e.g. self.filepath
         # self.logger.info(f"model loaded with configs: config")
         self.frame_count = 0
-        model_path = pathlib.Path('model.h5')
+        #model_path = pathlib.Path('model.h5')
+        #このモデルは顔が映りこむとnot_distracted判定になるため使えない
+        #model_path = pathlib.Path('2_11_model.h5')
+        #model_path = pathlib.Path('2_12_forth_model.h5')
+        #たぶんこれが最終版
+        model_path = pathlib.Path('2_12_fifth_model.h5')
 
         self.model = tf.keras.models.load_model(model_path, compile=False)
 
