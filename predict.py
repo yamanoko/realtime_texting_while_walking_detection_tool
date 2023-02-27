@@ -14,7 +14,7 @@ class Predict:
         self.model.invoke()
         prediction = self.model.get_tensor(self.output_index)
         prediction_value = prediction[0]
-        prediction_value = prediction_value.numpy()
+        #prediction_value = prediction_value.numpy()
         distracted_percentage = 100 * (1 - prediction_value)
 
         return distracted_percentage

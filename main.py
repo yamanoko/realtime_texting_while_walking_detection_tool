@@ -10,6 +10,7 @@ Predict = Predict()
 
 def main():
     cap = cv2.VideoCapture(0)
+    cap.set(cv2.CAP_PROP_FPS, 1)
 
     while True:
         ret, frame = cap.read()
@@ -31,7 +32,7 @@ def main():
         for (x, y, w, h) in distracted_boxes:
             cv2.rectangle(img=frame,
                           plt1=(x, y),
-                          plt2=(x+w, y+h),
+                          plt2=(x + w, y + h),
                           color=(0, 255, 0),
                           thickness=3
                           )
@@ -47,5 +48,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
