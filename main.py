@@ -30,10 +30,10 @@ def main():
         distracted_mask = (distracted_percentages >= 80)
         distracted_boxes = bounding_boxes[distracted_mask]
 
-        for (x, y, w, h) in distracted_boxes:
+        for (y_min, x_min, y_max, x_max) in distracted_boxes:
             cv2.rectangle(img=frame,
-                          plt1=(x, y),
-                          plt2=(x + w, y + h),
+                          pt1=(x_min, y_min),
+                          pt2=(x_max, y_max),
                           color=(0, 255, 0),
                           thickness=3
                           )
