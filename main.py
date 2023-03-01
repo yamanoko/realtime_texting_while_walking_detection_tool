@@ -11,6 +11,10 @@ Predict = Predict()
 def main():
     cap = cv2.VideoCapture(0)
     cap.set(cv2.CAP_PROP_FPS, 1)
+    width = int(cap.get(3)*0.5)
+    height = int(cap.get(4)*0.5)
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, width)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
 
     while True:
         ret, frame = cap.read()
@@ -29,10 +33,10 @@ def main():
         distracted_mask = (distracted_percentages >= 80)
         distracted_boxes = bounding_boxes[distracted_mask]
 
-        for (x, y, w, h) in distracted_boxes:
+        for (y_min, x_min, y_max, x_max) in distracted_boxes:
             cv2.rectangle(img=frame,
-                          plt1=(x, y),
-                          plt2=(x + w, y + h),
+                          pt1=(int(x_min*width), int(y_min*height)),
+                          pt2=(int(x_max*width), int(y_max*height)),
                           color=(0, 255, 0),
                           thickness=3
                           )
