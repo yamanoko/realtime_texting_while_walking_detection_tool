@@ -2,13 +2,10 @@ import tensorflow as tf
 
 
 def slice_image(image, bounding_box):
-    image_height_size = image.shape[0]
-    image_width_size = image.shape[1]
-
-    y_min = int(bounding_box[0]*image_height_size)
-    x_min = int(bounding_box[1]*image_width_size)
-    y_max = int(bounding_box[2]*image_height_size)
-    x_max = int(bounding_box[3]*image_width_size)
+    y_min = int(bounding_box[0])
+    x_min = int(bounding_box[1])
+    y_max = int(bounding_box[2])
+    x_max = int(bounding_box[3])
 
     sliced_image = image[y_min:y_max, x_min:x_max]
 

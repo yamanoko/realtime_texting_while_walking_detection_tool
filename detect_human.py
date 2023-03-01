@@ -1,33 +1,34 @@
-import cv2
-import tensorflow_hub as hub
+import numpy as np
 import tensorflow as tf
-"""
-class DetectHuman:
-    def __init__(self):
-        self.hog = cv2.HOGDescriptor()
-        self.hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
+from predict import Predict
+
+
+class DetectHuman(Predict):
+    def __init__(self, frame_width, frame_height, model_path='ssd_mobilenet_v1_1_metadata_1.tflite'):
+        super().__init__(model_path)
+
+        self.model_input_size = [300, 300]
+
+        self.width_ratio = frame_width / self.model_input_size[0]
+        self.height_ratio = frame_height / self.model_input_size[1]
+
+        self.ratio_array = np.array([self.height_ratio, self.width_ratio, self.height_ratio, self.width_ratio])
 
     def detect(self, frame):
-        (bounding_boxes, weights) = self.hog.detectMultiScale(frame,
-                                                              winStride=(16, 16),
-                                                              padding=(4, 4),
-                                                              scale=1)
-        return bounding_boxes
-"""
+        resized_frame = tf.image.resize(frame, self.model_input_size)
+        resized_frame = tf.cast(resized_frame, dtype=tf.uint8)
+        resized_frame = tf.expand_dims(resized_frame, 0)
 
+        prediction = super().predict(resized_frame)
+        boxes = prediction[0][0]
+        classes = prediction[0][1]
+        scores = prediction[0][2]
 
-class DetectHuman:
-    def __init__(self):
-        self.detector = hub.load("https://tfhub.dev/tensorflow/faster_rcnn/inception_resnet_v2_640x640/1")
+        qualified_boxes = boxes[(scores >= 0.8) & (classes == 1)]
 
-    def detect(self, frame):
-        frame_tensor = tf.expand_dims(tf.constant(frame, dtype=tf.uint8), 0)
-        detection_output = self.detector(frame_tensor)
+        if np.size(qualified_boxes) == 0:
+            return None
 
-        scores = detection_output['detection_scores'][0]
-        boxes = detection_output['detection_boxes'][0]
-        classes = detection_output['detection_classes'][0]
+        qualified_boxes *= self.ratio_array
 
-        qualified_boxes = boxes[(scores >= 0.8) & (classes == 1.0)]
-        qualified_boxes = qualified_boxes.numpy()
         return qualified_boxes
